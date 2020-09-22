@@ -4,6 +4,7 @@
   "description": "nakamise",
   "main": "app.js",
   "scripts": {
+    "ts-node": "ts-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -11,5 +12,9 @@
     "url": "git+ssh://git@github.com/windyakin/nakamise.git"
   },
   "author": "windyakin",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^12.12.62",
+    "typescript": "^4.0.3"
+  }
 }
