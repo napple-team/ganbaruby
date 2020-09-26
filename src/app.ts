@@ -22,11 +22,17 @@ app.get('/', (req, res) => {
 app.get('/tweet/:id', async (req, res) => {
   const twitterClient = new Twitter()
   const tweet: Tweet = await twitterClient.lookupTweet(req.params.id)
-  if ( !tweet.extended_entities || !tweet.extended_entities.media ) return
+  if ( !tweet.extended_entities || !tweet.extended_entities.media ) {
+    res.status(404).send('Tweet has no media')
+    return
+  }
 
   const photoMedia = tweet.extended_entities.media.filter((media: any) => media.type === 'photo')
 
-  if ( photoMedia.length === 0 ) return
+  if ( photoMedia.length === 0 ) {
+    res.status(404).send('Tweet has no image photos')
+    return
+  }
 
   const workspaceDirPath = path.resolve(process.cwd(), `temp/${uuid()}`)
   await fs.mkdir(workspaceDirPath)
