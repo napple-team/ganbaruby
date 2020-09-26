@@ -44,14 +44,14 @@ app.get('/tweet/:id', async (req, res) => {
     return imagePath
   }))
 
-  const caption = `<a href="https://twitter.com/${tweet.user.screen_name}/status/${tweet.id}">${tweet.user.name} (@${tweet.user.screen_name}) 「${tweet.text}」 / Twitter</a>`
+  const tweetUrl = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id}`
+  const caption = `<a href="${tweetUrl}">${tweet.user.name} (@${tweet.user.screen_name}) 「${tweet.text}」 / Twitter</a>`
 
   const tumblrClient = new Tumblr()
-  await tumblrClient.postPhotos(process.env.TUMBLR_POST_BLOG_NAME || '', caption, savedPhotoPaths)
-
+  const response = await tumblrClient.postPhotos(process.env.TUMBLR_POST_BLOG_NAME || '', caption, savedPhotoPaths)
+  const tumblrPostUrl = `https://${process.env.TUMBLR_POST_BLOG_NAME}.tumblr.com/post/${response.id}`
   await fs.rmdir(workspaceDirPath, { recursive: true })
-
-  res.send('response')
+  res.send(`${tweetUrl} send to ${tumblrPostUrl}`)
 })
 
 app.listen(3000);
