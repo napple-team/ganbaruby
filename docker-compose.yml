@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  nakamise:
+    image: windyakin/nakamise:latest
+    build: .
+    ports:
+      - 3000:3000
+    env_file: .env
