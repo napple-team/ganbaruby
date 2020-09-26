@@ -1,3 +1,6 @@
+import express from 'express';
+import helmet from 'helmet'
+import morgan from 'morgan'
 import dotenv from 'dotenv'
 import axios, { AxiosResponse } from 'axios'
 import path from 'path'
@@ -8,12 +11,19 @@ import { Twitter } from '~/twitter'
 import { Status as Tweet } from '~/types/twitter'
 import { Tumblr } from '~/tumblr';
 
-(async () => {
-  dotenv.config()
+dotenv.config()
+const app = express()
+app.use(helmet())
+app.use(morgan('combined'));
+app.disable('x-powered-by')
 
+app.get('/', (req, res) => {
+  res.send('nakamise')
+})
+
+app.get('/tweet/:id', async (req, res) => {
   const twitterClient = new Twitter()
-  const tweet: Tweet = await twitterClient.lookupTweet('1308763864968777728')
-  console.log(JSON.stringify(tweet))
+  const tweet: Tweet = await twitterClient.lookupTweet(req.params.id)
   if ( !tweet.extended_entities || !tweet.extended_entities.media ) return
 
   const photoMedia = tweet.extended_entities.media.filter((media: any) => media.type === 'photo')
@@ -40,4 +50,8 @@ import { Tumblr } from '~/tumblr';
   await tumblrClient.postPhotos(process.env.TUMBLR_POST_BLOG_NAME || '', caption, savedPhotoPaths)
 
   await fs.rmdir(workspaceDirPath, { recursive: true })
-})();
+
+  res.send('response')
+})
+
+app.listen(3000);
