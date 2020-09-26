@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import axios from 'axios'
 import OAuth from 'oauth-1.0a'
-import { Status as Tweet } from '~/types/twitter'
+import { Status as Tweet } from '../types/twitter'
 
 export class Twitter {
   private oauthClient: OAuth

@@ -1,0 +1,5 @@
+.git/
+dist/
+temp/*
+!temp/.keep
+.env
