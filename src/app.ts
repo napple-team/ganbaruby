@@ -1,7 +1,6 @@
 import express from 'express';
 import helmet from 'helmet'
 import morgan from 'morgan'
-import dotenv from 'dotenv'
 import axios, { AxiosResponse } from 'axios'
 import path from 'path'
 import { promises as fs } from 'fs'
@@ -11,7 +10,6 @@ import { Twitter } from '~/twitter'
 import { Status as Tweet } from '~/types/twitter'
 import { Tumblr } from '~/tumblr';
 
-dotenv.config()
 const app = express()
 app.use(helmet())
 app.use(morgan('combined'));
