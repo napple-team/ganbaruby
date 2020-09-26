@@ -29,11 +29,9 @@ export class Twitter {
       if (Array.isArray(response.data) && response.data.length === 1) {
         return response.data[0]
       } else {
-        console.log(response.data)
         throw new Error('Got empty or multi array data')
       }
     } catch (err) {
-      console.log(err)
       throw err
     }
   }
