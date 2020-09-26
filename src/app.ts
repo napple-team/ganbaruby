@@ -6,9 +6,9 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import uuid from 'uuid-random';
 
-import { Twitter } from '~/twitter'
-import { Status as Tweet } from '~/types/twitter'
-import { Tumblr } from '~/tumblr';
+import { Twitter } from './module/twitter'
+import { Status as Tweet } from './types/twitter'
+import { Tumblr } from './module/tumblr';
 
 const app = express()
 app.use(helmet())
