@@ -5,6 +5,7 @@ import { promises as fs } from 'fs'
 
 import { Twitter } from '~/twitter'
 import { Status as Tweet } from '~/types/twitter'
+import { Tumblr } from '~/tumblr';
 
 (async () => {
   dotenv.config()
@@ -28,4 +29,9 @@ import { Status as Tweet } from '~/types/twitter'
     await fs.writeFile(imagePath, Buffer.from(image.data, 'binary'))
     return imagePath
   }))
+
+  const caption = `<a href="https://twitter.com/${tweet.user.screen_name}/status/${tweet.id}">${tweet.user.name} (@${tweet.user.screen_name}) 「${tweet.text}」 / Twitter</a>`
+
+  const tumblrClient = new Tumblr()
+  await tumblrClient.postPhotos(process.env.TUMBLR_POST_BLOG_NAME || '', caption, savedPhotoPaths)
 })();
