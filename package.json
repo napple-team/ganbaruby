@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "ts-node": "ts-node -r tsconfig-paths/register",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/app.js",
+    "build": "rm -rf dist && tsc --project tsconfig.json",
+    "dev": "ts-node -r tsconfig-paths/register -- src/app.ts"
   },
   "repository": {
     "type": "git",
