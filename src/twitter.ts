@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import axios from 'axios'
 import OAuth from 'oauth-1.0a'
+import { Status as Tweet } from '~/types/twitter'
 
 export class Twitter {
   private oauthClient: OAuth
@@ -16,7 +17,7 @@ export class Twitter {
     })
   }
 
-  async lookupTweet(id: string | number) {
+  async lookupTweet(id: string | number): Promise<Tweet> {
     const request = {
       url: `https://api.twitter.com/1.1/statuses/lookup.json?id=${id}`,
       method: 'GET'
