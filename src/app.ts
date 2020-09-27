@@ -7,6 +7,8 @@ import { TweetController } from './controller/tweet-controller';
 
 const app = express()
 app.use(helmet())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 app.disable('x-powered-by')
 
@@ -21,7 +23,7 @@ app.get('/', (req, res) => {
   res.send('⌒°(・ω・)°⌒')
 })
 
-app.get('/tweet/:id', async (req, res) => {
+app.post('/post', async (req, res) => {
   try {
     TweetController.execute(req, res)
   } catch (err) {

@@ -12,8 +12,19 @@ export class TweetController {
   static async execute(req: Request, res: Response) {
     const twitterClient = new Twitter()
     let tweet: Tweet = {} as Tweet
+
+    const matchPettern = new RegExp('^https://twitter.com/[a-zA-Z0-9_]+/status/([0-9]+)', 'i');
+    const requestTweetUrl = req.body.tweetUrl || ''
+
+    if (!requestTweetUrl || requestTweetUrl.match(matchPettern).length === 0) {
+      res.status(422).send('Not match tweet url pattern')
+      return
+    }
+
+    const tweetId: string = requestTweetUrl.replace(matchPettern, '$1')
+
     try {
-      tweet = await twitterClient.lookupTweet(req.params.id)
+      tweet = await twitterClient.lookupTweet(tweetId)
       if ( !tweet.extended_entities || !tweet.extended_entities.media ) {
         res.status(404).send('Tweet has no media')
         return

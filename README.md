@@ -34,10 +34,18 @@ docker-compose up -d
 
 ## Endpoints
 
-### `GET /tweet/:id`
+### `POST /post`
 
-- `:id` はツイートのID
-- ツイートに画像が含まれていれば Tumblr に POST されます
+Request sample
+
+```json
+{
+  "tweetUrl": "https://twitter.com/MITLicense/status/1310171890162438145"
+}
+```
+
+- `tweetUrl` はツイートのURL
+- 指定したURLのツイートに画像が含まれていればその画像を Tumblr に POST します
 
 ## License
 
