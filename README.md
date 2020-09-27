@@ -22,6 +22,13 @@ docker-compose build
 ### Start
 
 ```
+docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d
+```
+
+以下のようにすることで通常の起動コマンドで立ち上げることもできます
+
+```
+mv docker-compose.development.yml docker-compose.override.yml
 docker-compose up -d
 ```
 

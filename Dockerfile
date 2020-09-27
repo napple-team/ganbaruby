@@ -19,5 +19,6 @@ RUN npm install --production \
   && mkdir -p ./temp
 
 COPY --from=builder /usr/src/app/dist/ ./dist/
+COPY docker-entrypoint.sh docker-entrypoint.sh
 
-CMD ["npm", "run", "start"]
+ENTRYPOINT [ "/usr/src/app/docker-entrypoint.sh" ]

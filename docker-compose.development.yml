@@ -1,0 +1,18 @@
+version: '3'
+
+volumes:
+  node_modules: {}
+
+services:
+  ganbaruby:
+    command: 'npm run dev'
+    volumes:
+      - ./:/usr/src/app/:ro
+      - /usr/src/app/temp
+      - node_modules:/usr/src/app/node_modules
+    command: 'dev'
+    environment:
+      - NODE_ENV=development
+  nginx:
+    ports:
+      - 8080:80
