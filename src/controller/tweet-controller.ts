@@ -54,7 +54,7 @@ export class TweetController {
       return imagePath
     }))
 
-    const tweetUrl = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id}`
+    const tweetUrl = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
     const caption = `<a href="${tweetUrl}">${tweet.user.name} (@${tweet.user.screen_name}) 「${tweet.text}」 / Twitter</a>`
 
     const tumblrClient = new Tumblr()
