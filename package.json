@@ -1,7 +1,7 @@
 {
-  "name": "nakamise",
+  "name": "ganbaruby",
   "version": "1.0.0",
-  "description": "nakamise",
+  "description": "ganbaruby",
   "main": "app.js",
   "scripts": {
     "ts-node": "ts-node -r tsconfig-paths/register",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/windyakin/nakamise.git"
+    "url": "git+ssh://git@github.com/napple-team/ganbaruby.git"
   },
   "author": "windyakin",
   "license": "MIT",

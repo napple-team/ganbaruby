@@ -1,4 +1,6 @@
-# nakamise
+# ganbaruby
+
+⌒°(・ω・)°⌒
 
 Twitter の投稿IDを投げると Tumblr に展開してくれるやつ
 

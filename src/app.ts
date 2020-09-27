@@ -18,7 +18,7 @@ if ( process.env.BASIC_USER && process.env.BASIC_PASS ) {
 }
 
 app.get('/', (req, res) => {
-  res.send('nakamise')
+  res.send('⌒°(・ω・)°⌒')
 })
 
 app.get('/tweet/:id', async (req, res) => {
