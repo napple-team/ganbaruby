@@ -22,17 +22,13 @@ export class Twitter {
       url: `https://api.twitter.com/1.1/statuses/lookup.json?id=${id}`,
       method: 'GET'
     }
-    try {
-      const response = await axios.get(request.url, {
-        headers: this.authorizeHeader(request)
-      })
-      if (Array.isArray(response.data) && response.data.length === 1) {
-        return response.data[0]
-      } else {
-        throw new Error('Got empty or multi array data')
-      }
-    } catch (err) {
-      throw err
+    const response = await axios.get(request.url, {
+      headers: this.authorizeHeader(request)
+    })
+    if (Array.isArray(response.data) && response.data.length === 1) {
+      return response.data[0]
+    } else {
+      throw new Error('Got empty or multi array data')
     }
   }
 

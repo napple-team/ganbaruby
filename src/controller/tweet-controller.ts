@@ -9,7 +9,7 @@ import { Status as Tweet } from '../types/twitter'
 import { Tumblr } from '../module/tumblr';
 
 export class TweetController {
-  static async execute(req: Request, res: Response) {
+  static async execute(req: Request, res: Response): Promise<void> {
     const twitterClient = new Twitter()
     let tweet: Tweet = {} as Tweet
 
@@ -23,14 +23,10 @@ export class TweetController {
 
     const tweetId: string = requestTweetUrl.replace(matchPettern, '$1')
 
-    try {
-      tweet = await twitterClient.lookupTweet(tweetId)
-      if ( !tweet.extended_entities || !tweet.extended_entities.media ) {
-        res.status(404).send('Tweet has no media')
-        return
-      }
-    } catch (err) {
-      throw err;
+    tweet = await twitterClient.lookupTweet(tweetId)
+    if ( !tweet.extended_entities || !tweet.extended_entities.media ) {
+      res.status(404).send('Tweet has no media')
+      return
     }
 
     const photoMedia = tweet.extended_entities.media.filter((media: any) => media.type === 'photo')
@@ -43,8 +39,8 @@ export class TweetController {
     const workspaceDirPath = path.resolve(process.cwd(), `temp/${uuid()}`)
     await fs.mkdir(workspaceDirPath)
 
-    const savedPhotoPaths: Array<string> = await Promise.all(photoMedia.map(async (media: any): Promise<string> => {
-      const ext: string = media.media_url_https.split('.').pop()
+    const savedPhotoPaths: Array<string> = await Promise.all(photoMedia.map(async (media): Promise<string> => {
+      const ext: string = media.media_url_https.split('.').pop() || 'jpg'
       const image: AxiosResponse = await axios.get(
         `${media.media_url_https}?format=${ext}&name=orig`,
         { responseType: 'arraybuffer' }
