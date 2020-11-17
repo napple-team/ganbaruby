@@ -22,7 +22,7 @@
     "@types/morgan": "^1.9.2",
     "@types/node": "^12.19.4",
     "@typescript-eslint/eslint-plugin": "^4.7.0",
-    "@typescript-eslint/parser": "^4.7.0",
+    "@typescript-eslint/parser": "^4.8.0",
     "eslint": "^7.13.0",
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
