@@ -51,7 +51,8 @@ export class TweetController {
     }))
 
     const tweetUrl = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
-    const caption = `<a href="${tweetUrl}">${tweet.user.name} (@${tweet.user.screen_name}) 「${tweet.text}」 / Twitter</a>`
+    const tweetText = tweet.text.replace(/\r?\n/, ' ')
+    const caption = `<a href="${tweetUrl}">${tweet.user.name} (@${tweet.user.screen_name}) 「${tweetText}」 / Twitter</a>`
 
     const tumblrClient = new Tumblr()
     const response = await tumblrClient.postPhotos(process.env.TUMBLR_POST_BLOG_NAME || '', caption, savedPhotoPaths)
