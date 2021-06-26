@@ -53,7 +53,10 @@ export class TweetController {
     const tweetUrl = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
 
     const s3Client = new S3();
-    await s3Client.postPhotos(savedPhotoPaths);
+    await s3Client.postPhotos(tweet.id_str, savedPhotoPaths, {
+      timestamp: req.body.timestamp,
+      tweetUser: tweet.user.screen_name,
+    });
 
     await fs.rmdir(workspaceDirPath, { recursive: true })
 
