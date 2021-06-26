@@ -11,13 +11,17 @@ export class S3 {
     this.client = new S3Client({ region: 'ap-northeast-1' });
   }
 
-  postPhotos(photoPaths: Array<string>): Promise<any> {
-
+  postPhotos(tweetId: string, photoPaths: Array<string>, options?: { timestamp: number | null, tweetUser: string }): Promise<any> {
+    const dir = (options?.timestamp ? dayjs.unix(options.timestamp) : dayjs()).format('YYYY/MM/DD')
     return Promise.all(photoPaths.map(async (photoPath) => {
       await this.client.send(new PutObjectCommand({
         Bucket: 'windyakin-koresuki-pictures',
-        Key: `${dayjs().format('YYYY/MM/DD')}/${path.basename(photoPath)}`,
-        Body: fs.createReadStream(photoPath)
+        Key: `${dir}/${tweetId}-${path.basename(photoPath)}`,
+        Body: fs.createReadStream(photoPath),
+        Metadata: {
+          'tweet-id': tweetId,
+          'tweet-user': options?.tweetUser || '',
+        }
       }))
     }))
   }
