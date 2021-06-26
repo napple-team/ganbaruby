@@ -6,7 +6,7 @@ import uuid from 'uuid-random';
 
 import { Twitter } from '../module/twitter'
 import { Status as Tweet } from '../types/twitter'
-import { Tumblr } from '../module/tumblr';
+import { S3 } from '../module/s3';
 
 export class TweetController {
   static async execute(req: Request, res: Response): Promise<void> {
@@ -51,14 +51,12 @@ export class TweetController {
     }))
 
     const tweetUrl = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
-    const tweetText = tweet.text.replace(/\r?\n/, ' ')
-    const caption = `<a href="${tweetUrl}">${tweet.user.name} (@${tweet.user.screen_name}) 「${tweetText}」 / Twitter</a>`
 
-    const tumblrClient = new Tumblr()
-    const response = await tumblrClient.postPhotos(process.env.TUMBLR_POST_BLOG_NAME || '', caption, savedPhotoPaths)
-    const tumblrPostUrl = `https://${process.env.TUMBLR_POST_BLOG_NAME}.tumblr.com/post/${response.id}`
+    const s3Client = new S3();
+    await s3Client.postPhotos(savedPhotoPaths);
+
     await fs.rmdir(workspaceDirPath, { recursive: true })
 
-    res.send(`${tweetUrl} send to ${tumblrPostUrl}`)
+    res.send(`Completed: ${tweetUrl}\n`)
   }
 }
