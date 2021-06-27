@@ -23,7 +23,11 @@ export class TweetController {
 
     const tweetId: string = requestTweetUrl.replace(matchPettern, '$1')
 
-    tweet = await twitterClient.lookupTweet(tweetId)
+    try {
+      tweet = await twitterClient.lookupTweet(tweetId)
+    } catch(err) {
+      res.status(500).send('Lookup tweet is something error')
+    }
     if ( !tweet.extended_entities || !tweet.extended_entities.media ) {
       res.status(404).send('Tweet has no media')
       return
