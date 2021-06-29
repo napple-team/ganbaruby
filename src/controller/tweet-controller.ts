@@ -4,11 +4,11 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import uuid from 'uuid-random';
 
-import { Twitter } from '../module/twitter'
 import { Status as Tweet } from '../types/twitter'
 import { MediaEntity } from 'twitter-d';
+import { Twitter } from '../module/twitter'
 import { S3 } from '../module/s3';
-import { Tumblr } from 'module/tumblr';
+import { Tumblr } from '../module/tumblr';
 
 export class TweetController {
   static async execute(req: Request, res: Response): Promise<void> {
