@@ -32,6 +32,10 @@ export class Twitter {
     }
   }
 
+  static generateTweetUrl(tweet: Tweet): string {
+    return `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
+  }
+
   private authorizeHeader(request: any) {
     return this.oauthClient.toHeader(
       this.oauthClient.authorize(request, {

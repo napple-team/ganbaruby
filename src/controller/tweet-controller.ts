@@ -6,7 +6,9 @@ import uuid from 'uuid-random';
 
 import { Twitter } from '../module/twitter'
 import { Status as Tweet } from '../types/twitter'
+import { MediaEntity } from 'twitter-d';
 import { S3 } from '../module/s3';
+import { Tumblr } from 'module/tumblr';
 
 export class TweetController {
   static async execute(req: Request, res: Response): Promise<void> {
@@ -33,7 +35,7 @@ export class TweetController {
       return
     }
 
-    const photoMedia = tweet.extended_entities.media.filter((media: any) => media.type === 'photo')
+    const photoMedia = tweet.extended_entities.media.filter((media: MediaEntity) => media.type === 'photo')
 
     if ( photoMedia.length === 0 ) {
       res.status(404).send('Tweet has no image photos')
@@ -54,13 +56,24 @@ export class TweetController {
       return imagePath
     }))
 
-    const tweetUrl = `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
+    const tweetUrl = Twitter.generateTweetUrl(tweet)
+
+    const tumblrClient = new Tumblr();
+    try {
+      await tumblrClient.postPhotos(tweet, savedPhotoPaths)
+    } catch(err) {
+      console.error(err)
+    }
 
     const s3Client = new S3();
-    await s3Client.postPhotos(tweet.id_str, savedPhotoPaths, {
-      timestamp: req.body.timestamp,
-      tweetUser: tweet.user.screen_name,
-    });
+    try {
+      await s3Client.postPhotos(tweet.id_str, savedPhotoPaths, {
+        timestamp: req.body.timestamp,
+        tweetUser: tweet.user.screen_name,
+      });
+    } catch (err) {
+      console.error(err)
+    }
 
     await fs.rmdir(workspaceDirPath, { recursive: true })
 
