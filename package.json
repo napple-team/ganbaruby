@@ -25,7 +25,7 @@
     "@typescript-eslint/parser": "^4.26.1",
     "eslint": "^7.29.0",
     "ts-node": "^10.0.0",
-    "tsconfig-paths": "^3.9.0",
+    "tsconfig-paths": "^3.10.1",
     "twitter-d": "^0.4.0",
     "typescript": "^4.3.2"
   },
