@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import axios from 'axios'
+import axios, { AxiosRequestHeaders } from 'axios'
 import OAuth from 'oauth-1.0a'
 import { Status as Tweet } from '../types/twitter'
 
@@ -36,13 +36,14 @@ export class Twitter {
     return `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
   }
 
-  private authorizeHeader(request: any) {
-    return this.oauthClient.toHeader(
+  private authorizeHeader(request: any): AxiosRequestHeaders {
+    const { Authorization: authorization } = this.oauthClient.toHeader(
       this.oauthClient.authorize(request, {
         key: process.env.TWTR_OAUTH_ACCESS_TOKEN_KEY || '',
         secret: process.env.TWTR_OAUTH_ACCESS_TOKEN_SECRET || ''
       })
-    )
+    );
+    return { authorization }
   }
 
   private hashFunction(base_string: string, key: any): string {
