@@ -11,7 +11,7 @@ import { S3 } from '../module/s3';
 import { Tumblr } from '../module/tumblr';
 
 export class TweetController {
-  static async execute(req: Request, res: Response): Promise<void> {
+  static async execute(req: Request, res: Response, isPostTumblr: boolean): Promise<void> {
     const twitterClient = new Twitter()
     let tweet: Tweet = {} as Tweet
 
@@ -58,11 +58,13 @@ export class TweetController {
 
     const tweetUrl = Twitter.generateTweetUrl(tweet)
 
-    const tumblrClient = new Tumblr();
-    try {
-      await tumblrClient.postPhotos(tweet, savedPhotoPaths)
-    } catch(err) {
-      console.error(err)
+    if (isPostTumblr) {
+      const tumblrClient = new Tumblr();
+      try {
+        await tumblrClient.postPhotos(tweet, savedPhotoPaths)
+      } catch(err) {
+        console.error(err)
+      }
     }
 
     const s3Client = new S3();
