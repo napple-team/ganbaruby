@@ -46,6 +46,17 @@ curl -X POST \
   http://ganbaruby/post
 ```
 
+### `POST /save`
+
+Not post to Tumblr. (Save to S3 only)
+
+```bash
+curl -X POST \
+  -H 'Content-type: application/json' \
+  -d '{"tweetUrl":"https://twitter.com/MITLicense/status/1310171890162438145"}' \
+  http://ganbaruby/save
+```
+
 ## License
 
 Under the [MIT License](LICENSE)
