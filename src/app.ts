@@ -25,7 +25,15 @@ app.get('/', (req, res) => {
 
 app.post('/post', async (req, res) => {
   try {
-    await TweetController.execute(req, res)
+    await TweetController.execute(req, res, true)
+  } catch (err) {
+    res.status(500).send()
+  }
+})
+
+app.post('/save', async (req, res) => {
+  try {
+    await TweetController.execute(req, res, false)
   } catch (err) {
     res.status(500).send()
   }
