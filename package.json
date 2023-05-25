@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "ts-node": "ts-node -r tsconfig-paths/register",
-    "start": "node dist/app.js",
+    "start": "node dist/src/app.js",
     "build": "rm -rf dist && tsc --project tsconfig.json",
     "dev": "ts-node -r tsconfig-paths/register -- src/app.ts",
     "lint": "eslint .",
