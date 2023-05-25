@@ -1,8 +1,10 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { parse, HTMLElement } from 'node-html-parser';
 
+import { Tweet } from '../types/twitter'
+
 class Twitter {
-  private client: AxiosInstance;
+  public client: AxiosInstance;
 
   constructor() {
     this.client = axios.create({
@@ -14,33 +16,24 @@ class Twitter {
     })
   }
 
-  async lookupTweet(id: string | number): Promise<any> {
-    const response = await this.client.get(
-      `/i/web/status/${id}`
-    );
-    const html = parse(response.data);
+  async lookupTweet(id: string | number): Promise<Tweet> {
+    const response = await this.fetchTweet(id);
+    const html: HTMLElement = parse(response);
     const identifierElement = html.querySelector('meta[itemProp="identifier"]')
 
     if (!identifierElement || identifierElement.attrs.content !== id) {
       throw new Error('Failed fetching data');
     }
 
-    const parsedData = this.parse(html);
-
-    return parsedData;
-  }
-
-  parse(html: HTMLElement) {
-    const identifierElement = html.querySelector('meta[itemProp="identifier"]')
     const identifier = identifierElement?.attrs.content;
     const urlElement = html.querySelector('meta[itemProp="url"]');
     const url = urlElement?.attrs.content;
     const userIdElement = html.querySelector('div[itemProp="author"] > meta[itemProp="additionalName"]');
     const userId = userIdElement?.attrs.content;
     const imageElements = html.querySelectorAll('div[itemProp="image"] > meta[itemProp="contentUrl"]');
-    const images = imageElements.map((imageElement) => imageElement?.attrs.content);
+    const imageUrls = imageElements.map((imageElement) => imageElement?.attrs.content);
 
-    if (!identifier || !url || !userId || images.length === 0) {
+    if (!identifier || !url || !userId || imageUrls.length === 0) {
       throw new Error('Failed parsing data');
     }
 
@@ -48,8 +41,13 @@ class Twitter {
       identifier,
       url,
       userId,
-      images
-    }
+      imageUrls
+    } as Tweet
+  }
+
+  async fetchTweet(id: string | number) {
+    const response = await this.client.get(`/i/web/status/${id}`);
+    return response.data;
   }
 }
 

@@ -3,7 +3,8 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import basicAuth from 'express-basic-auth'
 
-import { TweetController } from './controller/tweet-controller';
+import { SaveController } from './controller/save-controller';
+import Twitter from './lib/twitter'
 
 const app = express()
 app.use(helmet())
@@ -19,24 +20,20 @@ if ( process.env.BASIC_USER && process.env.BASIC_PASS ) {
   }))
 }
 
+const twitterClient = new Twitter();
+
+app.set('twitterClient', twitterClient);
+
 app.get('/', (req, res) => {
   res.send('⌒°(・ω・)°⌒')
 })
 
-app.post('/post', async (req, res) => {
-  try {
-    await TweetController.execute(req, res, false)
-  } catch (err) {
-    res.status(500).send()
-  }
-})
-
 app.post('/save', async (req, res) => {
   try {
-    await TweetController.execute(req, res, false)
+    await SaveController.execute(req, res)
   } catch (err) {
     res.status(500).send()
   }
-})
+});
 
 app.listen(3000);
