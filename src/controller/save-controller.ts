@@ -4,7 +4,7 @@ import path from 'path'
 import { promises as fs } from 'fs'
 import uuid from 'uuid-random';
 
-import { S3 } from '../lib/s3';
+import S3 from '../lib/s3';
 import { Tweet } from '../types/twitter'
 
 export class SaveController {
