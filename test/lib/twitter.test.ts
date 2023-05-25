@@ -35,6 +35,16 @@ describe('Twitter lib test', () => {
       ]);
     });
 
+    it('retrun tweet data when fetching multi pictures post in reply', async () => {
+      const actual = await twitterClient.lookupTweet('1661673554293948417');
+      expect(actual.identifier).toBe('1661673554293948417');
+      expect(actual.url).toBe('https://twitter.com/rouka0101/status/1661673554293948417');
+      expect(actual.userId).toBe('rouka0101');
+      expect(actual.imageUrls).toEqual([
+        'https://pbs.twimg.com/media/Fw9zSg4aYAAMl1_.jpg',
+      ]);
+    });
+
     it('throw error when fetching sensitive tweet', async () => {
       expect(async () => {
         await twitterClient.lookupTweet('1652976152380686340');

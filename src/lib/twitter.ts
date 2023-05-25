@@ -20,17 +20,18 @@ class Twitter {
     const response = await this.fetchTweet(id);
     const html: HTMLElement = parse(response);
     const identifierElement = html.querySelector('meta[itemProp="identifier"]')
+    const tweetPart = html.querySelector('div[itemProp="hasPart"]')
 
-    if (!identifierElement || identifierElement.attrs.content !== id) {
+    if (!tweetPart || !identifierElement || identifierElement.attrs.content !== id) {
       throw new Error('Failed fetching data');
     }
 
     const identifier = identifierElement?.attrs.content;
-    const urlElement = html.querySelector('meta[itemProp="url"]');
+    const urlElement = tweetPart.querySelector('meta[itemProp="url"]');
     const url = urlElement?.attrs.content;
-    const userIdElement = html.querySelector('div[itemProp="author"] > meta[itemProp="additionalName"]');
+    const userIdElement = tweetPart.querySelector('div[itemProp="author"] > meta[itemProp="additionalName"]');
     const userId = userIdElement?.attrs.content;
-    const imageElements = html.querySelectorAll('div[itemProp="image"] > meta[itemProp="contentUrl"]');
+    const imageElements = tweetPart.querySelectorAll('div[itemProp="image"] > meta[itemProp="contentUrl"]');
     const imageUrls = imageElements.map((imageElement) => imageElement?.attrs.content);
 
     if (!identifier || !url || !userId || imageUrls.length === 0) {
