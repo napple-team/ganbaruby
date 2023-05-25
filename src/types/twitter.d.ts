@@ -1,6 +1,6 @@
-import { Status as StatusOrigin, FullUser } from 'twitter-d'
-
-export interface Status extends StatusOrigin {
-  text: string;
-  user: FullUser;
+export interface Tweet {
+  identifier: string;
+  url: string;
+  userId: string;
+  imageUrls: Array<string>;
 }
