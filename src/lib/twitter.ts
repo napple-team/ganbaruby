@@ -11,7 +11,7 @@ class Twitter {
       baseURL: 'https://twitter.com',
       headers: {
         // NOTE: UserAgent を Googlebot にすると OGP などのタグを返してくれる
-        'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+        'User-Agent': 'Slackbot-LinkExpanding 1.0 (+https://api.slack.com/robots)'
       }
     })
   }
