@@ -30,25 +30,27 @@ describe('Twitter lib test', () => {
       expect(actual.userId).toBe('MITLicense');
       expect(actual.imageUrls).toEqual([
         'https://pbs.twimg.com/media/Fu2nEQpacAAXIy9.jpg',
-        'https://pbs.twimg.com/media/Fu2nFRzaUAIp9DW.jpg',
-        'https://pbs.twimg.com/media/Fu2nGBlakAANbvi.jpg'
+        // FIXME: Thank you Elon Musk
+        // 'https://pbs.twimg.com/media/Fu2nFRzaUAIp9DW.jpg',
+        // 'https://pbs.twimg.com/media/Fu2nGBlakAANbvi.jpg'
       ]);
     });
 
+    // https://twitter.com/MITLicense/status/1718863624721338572
     it('retrun tweet data when fetching multi pictures post in reply', async () => {
-      const actual = await twitterClient.lookupTweet('1661673554293948417');
-      expect(actual.identifier).toBe('1661673554293948417');
-      expect(actual.url).toBe('https://twitter.com/rouka0101/status/1661673554293948417');
-      expect(actual.userId).toBe('rouka0101');
+      const actual = await twitterClient.lookupTweet('1718863624721338572');
+      expect(actual.identifier).toBe('1718863624721338572');
+      expect(actual.url).toBe('https://twitter.com/MITLicense/status/1718863624721338572');
+      expect(actual.userId).toBe('MITLicense');
       expect(actual.imageUrls).toEqual([
-        'https://pbs.twimg.com/media/Fw9zSg4aYAAMl1_.jpg',
+        'https://pbs.twimg.com/media/F9qhW4-bAAAS52U.jpg',
       ]);
     });
 
     it('throw error when fetching sensitive tweet', async () => {
       expect(async () => {
         await twitterClient.lookupTweet('1652976152380686340');
-      }).rejects.toThrow('Failed fetching data');
+      }).rejects.toThrow('Failed fetching image url');
     })
   });
 });

@@ -17,26 +17,34 @@ class Twitter {
   }
 
   async lookupTweet(id: string | number): Promise<Tweet> {
+    const tweetUrlMatchPattern = new RegExp('^https://twitter.com/([a-zA-Z0-9_]+)/status/([0-9]+)$', 'i');
     const response = await this.fetchTweet(id);
     const html: HTMLElement = parse(response);
-    const identifierElement = html.querySelector('meta[itemProp="identifier"]')
-    const tweetPart = html.querySelector('div[itemProp="hasPart"]')
+    const urlElement = html.querySelector('link[rel="canonical"]');
+    const url = urlElement?.attrs.href;
 
-    if (!tweetPart || !identifierElement || identifierElement.attrs.content !== id) {
+    if (!url || !url.match(tweetUrlMatchPattern)) {
       throw new Error('Failed fetching data');
     }
 
-    const identifier = identifierElement?.attrs.content;
-    const urlElement = tweetPart.querySelector('meta[itemProp="url"]');
-    const url = urlElement?.attrs.content;
-    const userIdElement = tweetPart.querySelector('div[itemProp="author"] > meta[itemProp="additionalName"]');
-    const userId = userIdElement?.attrs.content;
-    const imageElements = tweetPart.querySelectorAll('div[itemProp="image"] > meta[itemProp="contentUrl"]');
-    const imageUrls = imageElements.map((imageElement) => imageElement?.attrs.content);
+    const identifier = url.replace(tweetUrlMatchPattern, '$2');
 
-    if (!identifier || !url || !userId || imageUrls.length === 0) {
+    const userId = url.replace(tweetUrlMatchPattern, '$1');
+
+    if (!identifier || !userId) {
       throw new Error('Failed parsing data');
     }
+
+    const imageUrlElement = html.querySelector('meta[property="og:image"]')
+    const imageUrl = imageUrlElement?.attrs.content;
+
+    if (!imageUrlElement || !imageUrl) {
+      throw new Error('Failed fetching image url');
+    }
+
+    const imageUrls = [imageUrl].map((url) => {
+      return url.replace(/:large$/, '')
+    })
 
     return {
       identifier,
