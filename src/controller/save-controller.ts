@@ -11,7 +11,7 @@ export class SaveController {
   static async execute(req: Request, res: Response): Promise<void> {
     const twitterClient = req.app.get('twitterClient')
 
-    const matchPettern = new RegExp('^https://twitter.com/[a-zA-Z0-9_]+/status/([0-9]+)', 'i');
+    const matchPettern = new RegExp('^https://twitter.com/([a-zA-Z0-9_]+)/status/([0-9]+)', 'i');
     const requestTweetUrl = req.body.tweetUrl || ''
 
     if (!requestTweetUrl || requestTweetUrl.match(matchPettern).length === 0) {
@@ -19,12 +19,10 @@ export class SaveController {
       return
     }
 
-    const tweetId: string = requestTweetUrl.replace(matchPettern, '$1')
-
     let tweet: Tweet = {} as Tweet
 
     try {
-      tweet = await twitterClient.lookupTweet(tweetId)
+      tweet = await twitterClient.lookupTweet(requestTweetUrl)
     } catch(err) {
       res.status(500).send('Lookup tweet is something error')
     }
