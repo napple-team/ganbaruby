@@ -23,6 +23,16 @@ describe('Twitter lib test', () => {
       ]);
     });
 
+    it('return tweet data when x.com', async () => {
+      const actual = await twitterClient.lookupTweet('https://x.com/MITLicense/status/1652865752331091968');
+      expect(actual.identifier).toBe('1652865752331091968');
+      expect(actual.url).toBe('https://twitter.com/MITLicense/status/1652865752331091968');
+      expect(actual.userId).toBe('MITLicense');
+      expect(actual.imageUrls).toEqual([
+        'https://pbs.twimg.com/media/FvAopGGaEAAp-Dk.jpg'
+      ]);
+    });
+
     it('retrun tweet data when fetching multi pictures post', async () => {
       const actual = await twitterClient.lookupTweet('https://twitter.com/MITLicense/status/1652160368901505027');
       expect(actual.identifier).toBe('1652160368901505027');

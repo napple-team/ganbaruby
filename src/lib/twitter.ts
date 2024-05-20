@@ -17,12 +17,12 @@ class Twitter {
   }
 
   async lookupTweet(tweetUrl: string): Promise<Tweet> {
-    const tweetUrlMatchPattern = new RegExp('^https://twitter.com/([a-zA-Z0-9_]+)/status/([0-9]+)$', 'i');
+    const tweetUrlMatchPattern = new RegExp('^https://(twitter|x).com/([a-zA-Z0-9_]+)/status/([0-9]+)$', 'i');
     const matchPettern = tweetUrl.match(tweetUrlMatchPattern);
     if (matchPettern === null) {
       throw new Error('Not match tweet url pattern');
     }
-    const [_, user, id] = matchPettern;
+    const [_, server, user, id] = matchPettern;
     const response = await this.fetchTweet(user, id);
     const html: HTMLElement = parse(response);
     const urlElement = html.querySelector('link[rel="canonical"]');
@@ -31,9 +31,9 @@ class Twitter {
       throw new Error('Failed fetching data');
     }
 
-    const identifier = url.replace(tweetUrlMatchPattern, '$2');
+    const identifier = url.replace(tweetUrlMatchPattern, '$3');
 
-    const userId = url.replace(tweetUrlMatchPattern, '$1');
+    const userId = url.replace(tweetUrlMatchPattern, '$2');
 
     if (!identifier || !userId) {
       throw new Error('Failed parsing data');
