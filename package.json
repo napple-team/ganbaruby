@@ -37,7 +37,7 @@
     "axios": "^1.7",
     "crypto": "^1.0.1",
     "dayjs": "^1.11.4",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "express-basic-auth": "^1.2.1",
     "helmet": "^7.0.0",
     "morgan": "^1.10.0",
