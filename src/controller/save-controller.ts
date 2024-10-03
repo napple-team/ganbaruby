@@ -24,6 +24,7 @@ export class SaveController {
     try {
       tweet = await twitterClient.lookupTweet(requestTweetUrl)
     } catch(err) {
+      console.error(err);
       res.status(500).send('Lookup tweet is something error')
     }
     if (tweet.imageUrls.length === 0) {
