@@ -32,6 +32,7 @@ app.post('/save', async (req, res) => {
   try {
     await SaveController.execute(req, res)
   } catch (err) {
+    console.error(err)
     res.status(500).send()
   }
 });

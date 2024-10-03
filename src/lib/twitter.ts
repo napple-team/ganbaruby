@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import { parse, HTMLElement } from 'node-html-parser';
 
 import { Tweet } from '../types/twitter'
@@ -22,6 +22,7 @@ class Twitter {
     if (matchPettern === null) {
       throw new Error('Not match tweet url pattern');
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, server, user, id] = matchPettern;
     const response = await this.fetchTweet(user, id);
     const html: HTMLElement = parse(response);
