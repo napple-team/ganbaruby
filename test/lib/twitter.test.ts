@@ -16,7 +16,7 @@ describe('Twitter lib test', () => {
     it('return tweet data when fetching single pictures post', async () => {
       const actual = await twitterClient.lookupTweet('https://twitter.com/MITLicense/status/1652865752331091968');
       expect(actual.identifier).toBe('1652865752331091968');
-      expect(actual.url).toBe('https://twitter.com/MITLicense/status/1652865752331091968');
+      expect(actual.url).toBe('https://x.com/MITLicense/status/1652865752331091968');
       expect(actual.userId).toBe('MITLicense');
       expect(actual.imageUrls).toEqual([
         'https://pbs.twimg.com/media/FvAopGGaEAAp-Dk.jpg'
@@ -26,7 +26,7 @@ describe('Twitter lib test', () => {
     it('return tweet data when x.com', async () => {
       const actual = await twitterClient.lookupTweet('https://x.com/MITLicense/status/1652865752331091968');
       expect(actual.identifier).toBe('1652865752331091968');
-      expect(actual.url).toBe('https://twitter.com/MITLicense/status/1652865752331091968');
+      expect(actual.url).toBe('https://x.com/MITLicense/status/1652865752331091968');
       expect(actual.userId).toBe('MITLicense');
       expect(actual.imageUrls).toEqual([
         'https://pbs.twimg.com/media/FvAopGGaEAAp-Dk.jpg'
@@ -36,7 +36,7 @@ describe('Twitter lib test', () => {
     it('retrun tweet data when fetching multi pictures post', async () => {
       const actual = await twitterClient.lookupTweet('https://twitter.com/MITLicense/status/1652160368901505027');
       expect(actual.identifier).toBe('1652160368901505027');
-      expect(actual.url).toBe('https://twitter.com/MITLicense/status/1652160368901505027');
+      expect(actual.url).toBe('https://x.com/MITLicense/status/1652160368901505027');
       expect(actual.userId).toBe('MITLicense');
       expect(actual.imageUrls).toEqual([
         'https://pbs.twimg.com/media/Fu2nEQpacAAXIy9.jpg',
@@ -49,7 +49,7 @@ describe('Twitter lib test', () => {
     it('retrun tweet data when fetching multi pictures post in reply', async () => {
       const actual = await twitterClient.lookupTweet('https://twitter.com/MITLicense/status/1718863624721338572');
       expect(actual.identifier).toBe('1718863624721338572');
-      expect(actual.url).toBe('https://twitter.com/MITLicense/status/1718863624721338572');
+      expect(actual.url).toBe('https://x.com/MITLicense/status/1718863624721338572');
       expect(actual.userId).toBe('MITLicense');
       expect(actual.imageUrls).toEqual([
         'https://pbs.twimg.com/media/F9qhW4-bAAAS52U.jpg',
@@ -59,7 +59,7 @@ describe('Twitter lib test', () => {
     it('return tweet deta when fetching sensitive tweet', async () => {
       const actual = await twitterClient.lookupTweet('https://twitter.com/_LinaTai_/status/1652976152380686340');
       expect(actual.identifier).toBe('1652976152380686340');
-      expect(actual.url).toBe('https://twitter.com/_LinaTai_/status/1652976152380686340');
+      expect(actual.url).toBe('https://x.com/_LinaTai_/status/1652976152380686340');
       expect(actual.userId).toBe('_LinaTai_');
       expect(actual.imageUrls).toEqual([
         'https://pbs.twimg.com/media/FvAtnA6WwAED3jM.jpg',
