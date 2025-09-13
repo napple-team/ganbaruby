@@ -8,7 +8,7 @@ class Twitter {
 
   constructor() {
     this.client = axios.create({
-      baseURL: 'https://fxtwitter.com',
+      baseURL: 'https://fixupx.com',
       headers: {
         // NOTE: UserAgent を Googlebot にすると OGP などのタグを返してくれる
         'User-Agent': 'Slackbot-LinkExpanding 1.0 (+https://api.slack.com/robots)'
@@ -66,10 +66,16 @@ class Twitter {
   }
 
   getMediaUrlFromMosaic(mediaUrl: string): Array<string> {
-    if (mediaUrl.match(/^https:\/\/pbs\.twimg\.com\/media\/[a-zA-Z0-9_-]+\.(jpg|png)$/)) {
-      return [mediaUrl];
+    // 単一画像の場合: 直接 pbs.twimg.com のURLが返ってくる
+    // ?name=orig パラメータが付いている場合もあるので、それも考慮
+    if (mediaUrl.match(/^https:\/\/pbs\.twimg\.com\/media\/[a-zA-Z0-9_-]+\.(jpg|png)(\?.*)?$/)) {
+      // ?name=orig などのパラメータを削除して返す
+      return [mediaUrl.split('?')[0]];
     }
-    const matches = mediaUrl.match(/^https:\/\/mosaic\.fxtwitter\.com\/jpeg\/[0-9]+\/(([a-zA-Z0-9]+\/?)+)$/);
+    
+    // 複数画像の場合: fixupx.com の mosaic URL
+    // 新しいフォーマット: https://mosaic.fxtwitter.com/jpeg/{tweetId}/{mediaId1}/{mediaId2}/...
+    const matches = mediaUrl.match(/^https:\/\/mosaic\.fxtwitter\.com\/jpeg\/[0-9]+\/(([a-zA-Z0-9_-]+\/?)+)$/);
     if (matches === null) {
       throw new Error('Not match mosaic url pattern');
     }
